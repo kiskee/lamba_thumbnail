@@ -85,20 +85,22 @@ Running the above will automatically add `serverless-python-requirements` to `pl
 
 # Here are my own instructiosn to create this enviroment
 
-para empezar hacemos 
+# To begin, follow these steps:
+## 1. Run the Serverless Framework command:
 ```
 sls
 ```
 
-luego nos vamos por la opcion de 
+## 2. Choose the option:
 
 ```
 AWS - Python - Starter
 ```
 
-recuerda siempre poner el bucket public desde permisions
+Always ensure to make the bucket public from permissions.
 
-politica para hacer que los items en el bucket sean publicos 
+## 3. Add a policy to make items in the bucket public:
+## Create a policy like this:
 
 ```
 {
@@ -115,22 +117,22 @@ politica para hacer que los items en el bucket sean publicos
 }
 ```
 
-luego de hacer todos los paths en el yml para la api gateway hay que ir a la consola y deployar la api
+After configuring all the paths in the YAML file for the API Gateway, go to the AWS Console and deploy the API.
 
 
-al final de todo si quieres hacer un cleanup de la application hacemos esto
+## 4. When you're done and want to clean up the application, execute:
 
 ```
 sls remove
 ```
 
-como siempre para pushiar todo a la nube con 
+## 5. As always, to deploy everything to the cloud, you can use either:
 
 ```
 sls deploy 
 ```
 
-o
+Or
 
 ```
 sls deploy --verbose
