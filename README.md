@@ -137,3 +137,14 @@ Or
 ```
 sls deploy --verbose
 ```
+
+# please install the necessary plugins in serverless
+```
+sls plugin install -n serverless-python-requirements
+```
+
+# remeber always add the layer in the lamba console for the PIL dependicy
+
+here is a link that can help to find the correct arn 
+
+https://github.com/keithrozario/Klayers
