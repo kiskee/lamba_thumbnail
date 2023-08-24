@@ -84,3 +84,54 @@ Running the above will automatically add `serverless-python-requirements` to `pl
 
 
 # Here are my own instructiosn to create this enviroment
+
+para empezar hacemos 
+```
+sls
+```
+
+luego nos vamos por la opcion de 
+
+```
+AWS - Python - Starter
+```
+
+recuerda siempre poner el bucket public desde permisions
+
+politica para hacer que los items en el bucket sean publicos 
+
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "PublicReadGetObject",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::nieladverse-gen-thumbnails/*"
+        }
+    ]
+}
+```
+
+luego de hacer todos los paths en el yml para la api gateway hay que ir a la consola y deployar la api
+
+
+al final de todo si quieres hacer un cleanup de la application hacemos esto
+
+```
+sls remove
+```
+
+como siempre para pushiar todo a la nube con 
+
+```
+sls deploy 
+```
+
+o
+
+```
+sls deploy --verbose
+```

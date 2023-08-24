@@ -97,3 +97,70 @@ def s3_save_thumbnail_url_to_dynamo(url_path, img_size):
         'headers': {'Content-Type': 'application/json'},
         'body': json.dumps(response)
     }
+
+
+def s3_get_thumbnail_urls(event, context):
+    # get all image urls from the db and show in a json format
+    table = dynamodb.Table(dbtable)
+    response = table.scan()
+    data = response['Items']
+    # paginate through the results in a loop
+    while 'LastEvaluatedKey' in response:
+        response = table.scan(ExclusiveStartKey=response['LastEvaluatedKey'])
+        data.extend(response['Items'])
+
+    return {
+        'statusCode': 200,
+        'headers': {'Content-Type': 'application/json'},
+        'body': json.dumps(data)
+    }
+
+# ====== RD - (no Create), Read, (no Update), Delete ======
+
+
+def s3_get_item(event, context):
+
+    table = dynamodb.Table(dbtable)
+    response = table.get_item(Key={
+        'id': event['pathParameters']['id']
+    })
+
+    item = response['Item']
+
+    return {
+        'statusCode': 200,
+        'headers': {'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'},
+        'body': json.dumps(item),
+        'isBase64Encoded': False,
+    }
+
+
+def s3_delete_item(event, context):
+    item_id = event['pathParameters']['id']
+
+    # Set the default error response
+    response = {
+        "statusCode": 500,
+        "body": f"An error occured while deleting post {item_id}"
+    }
+    table = dynamodb.Table(dbtable)
+    response = table.delete_item(Key={
+        'id': item_id
+    })
+    all_good_response = {
+        "deleted": True,
+        "itemDeletedId": item_id
+    }
+
+   # If deletion is successful for post
+    if response['ResponseMetadata']['HTTPStatusCode'] == 200:
+        response = {
+            "statusCode": 200,
+            'headers': {'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': '*'},
+            'body': json.dumps(all_good_response),
+        }
+    return response
+# Exercize--> Implement Update :)
+# ====== END RD - (no Create), Read, (no Update), Delete ======

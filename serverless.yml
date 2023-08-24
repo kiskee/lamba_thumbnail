@@ -47,6 +47,40 @@ functions:
           event: s3:ObjectCreated:*
           rules:
             - suffix: .png
+  list:
+    handler: handler.s3_get_thumbnail_urls
+    events:
+        - http:
+            path: images/all
+            method: get 
+            cors: true
+  get:
+      handler: handler.s3_get_item
+      events:
+        - http:
+            path: images/get/{id}
+            method: get 
+            cors: true 
+
+  delete:
+      handler: handler.s3_delete_item
+      events:
+        - http:
+            path: images/delete/{id}
+            method: delete 
+            cors: true 
+
+
+  update:
+      handler: handler.s3_update_item
+      events:
+        - http:
+            path: images/update/{id}
+            method: put 
+            cors: true
+
+
+
 resources:
  Resources:
    ImagesDynamoDbTable:
@@ -64,7 +98,7 @@ resources:
         TableName: ${self:provider.environment.DYNAMODB_TABLE}
 
 
-        
+
 #MUST first run: serverless plugin install -n serverless-python-requirements
 plugins:
   - serverless-python-requirements
