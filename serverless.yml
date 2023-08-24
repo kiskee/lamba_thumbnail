@@ -47,7 +47,24 @@ functions:
           event: s3:ObjectCreated:*
           rules:
             - suffix: .png
+resources:
+ Resources:
+   ImagesDynamoDbTable:
+     Type: AWS::DynamoDB::Table
+     Properties:
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.DYNAMODB_TABLE}
 
+
+        
 #MUST first run: serverless plugin install -n serverless-python-requirements
 plugins:
   - serverless-python-requirements
